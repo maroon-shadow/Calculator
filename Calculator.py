@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox, filedialog, colorchooser, ttk
 import re
+import requests
+import base64
 
 ALLOWED_CHARS = "0123456789+-*/()"
 
@@ -13,7 +15,14 @@ root.geometry("300x200")
 root.config(bg="darkgrey")
 root.resizable(False, False)
 
-icon = tk.PhotoImage(file=r"")  # replace with your file path
+# Step 1: Download the PNG (if you haven't already)
+url = "https://raw.githubusercontent.com/maroon-shadow/Calculator/master/calc-.png"
+response = requests.get(url)
+if response.status_code == 200:
+    # Step 2: Load PNG into memory
+    image_data =  base64.b64encode(response.content)
+
+icon = tk.PhotoImage(data=image_data)
 root.iconphoto(False, icon)
 
 vcmd = (root.register(validate_math), "%P")
